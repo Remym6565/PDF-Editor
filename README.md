@@ -2,6 +2,9 @@
 
 Un éditeur PDF desktop moderne avec interface graphique, développé en Python avec PyQt6.
 
+[![Télécharger](https://img.shields.io/badge/T%C3%A9l%C3%A9charger-PDF_Editor_Pro.exe-00d2ff?style=for-the-badge)](https://github.com/Remym6565/PDF-Editor/releases/download/v1.0.0/PDF_Editor_Pro.exe)
+[![Landing Page](https://img.shields.io/badge/Landing%20Page-Visiter-7b68ee?style=for-the-badge)](https://remym6565.github.io/PDF-Editor/)
+
 ## Fonctionnalités
 
 - **Ouverture, création et enregistrement** de fichiers PDF
@@ -37,7 +40,7 @@ python main.py
 
 ```bash
 pip install pyinstaller
-pyinstaller --noconfirm --onedir --windowed --name "PDF_Editor_Pro" "main.py"
+pyinstaller --noconfirm --onefile --windowed --name "PDF_Editor_Pro" "main.py"
 ```
 
 ## Structure du projet

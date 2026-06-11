@@ -6,3 +6,6 @@ dist/
 *.log
 error.log
 .PDF_Editor_signatures/
+.env
+.DS_Store
+Thumbs.db

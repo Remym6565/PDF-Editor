@@ -10,10 +10,15 @@
     html { scroll-behavior: smooth; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #0a0a0f;
       color: #e0e0e0;
       line-height: 1.6;
       overflow-x: hidden;
+      min-height: 100vh;
+      background: #0a0a0f;
+      background-image:
+        radial-gradient(ellipse at 10% 20%, rgba(0, 210, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 90% 80%, rgba(123, 104, 238, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(255, 107, 107, 0.03) 0%, transparent 50%);
     }
 
     nav {
@@ -21,13 +26,14 @@
       top: 0;
       width: 100%;
       padding: 1rem 2rem;
-      background: rgba(10, 10, 15, 0.85);
-      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 100;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
     }
     nav .logo {
       font-size: 1.2rem;
@@ -38,7 +44,7 @@
     }
     nav .links { display: flex; gap: 1.5rem; align-items: center; }
     nav .links a {
-      color: #aaa;
+      color: rgba(255, 255, 255, 0.6);
       text-decoration: none;
       font-size: 0.9rem;
       transition: color 0.2s;
@@ -46,17 +52,23 @@
     nav .links a:hover { color: #fff; }
     .nav-btn {
       padding: 0.5rem 1.2rem;
-      background: linear-gradient(135deg, #00d2ff, #7b68ee);
-      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
       color: #fff !important;
       font-weight: 600;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .nav-btn:hover {
+      background: rgba(0, 210, 255, 0.15);
+      border-color: rgba(0, 210, 255, 0.3);
+      color: #00d2ff !important;
     }
 
     section { padding: 2.5rem 2rem; }
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
+    .container { max-width: 1100px; margin: 0 auto; }
 
     .hero {
       min-height: 100vh;
@@ -64,18 +76,27 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 5rem 2rem 3rem;
-      background:
-        radial-gradient(ellipse at 20% 50%, rgba(0, 210, 255, 0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 50%, rgba(123, 104, 238, 0.08) 0%, transparent 50%),
-        #0a0a0f;
+      padding: 6rem 2rem 3rem;
     }
-    .hero-content { max-width: 750px; }
+    .hero-content { max-width: 650px; }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 20px;
+      padding: 3rem 2.5rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
     .hero-badge {
       display: inline-block;
       padding: 0.4rem 1rem;
-      background: rgba(0, 210, 255, 0.1);
-      border: 1px solid rgba(0, 210, 255, 0.2);
+      background: rgba(0, 210, 255, 0.08);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border: 1px solid rgba(0, 210, 255, 0.15);
       border-radius: 20px;
       font-size: 0.8rem;
       color: #00d2ff;
@@ -93,62 +114,87 @@
     }
     .hero p {
       font-size: 1.2rem;
-      color: #888;
+      color: rgba(255, 255, 255, 0.5);
       margin-bottom: 2.5rem;
-      max-width: 600px;
+      max-width: 500px;
       margin-left: auto;
       margin-right: auto;
     }
-    .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-    .btn-primary, .btn-secondary {
+
+    .btn-download {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 1rem 2.2rem;
-      font-size: 1.05rem;
-      font-weight: 600;
-      border-radius: 8px;
+      gap: 0.75rem;
+      padding: 1.1rem 2.5rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 12px;
       text-decoration: none;
-      transition: all 0.25s;
       cursor: pointer;
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, #00d2ff, #7b68ee);
+      background: rgba(0, 210, 255, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 210, 255, 0.2);
       color: #fff;
-      border: none;
+      transition: all 0.3s;
+      letter-spacing: 0.3px;
     }
-    .btn-primary:hover {
+    .btn-download:hover {
+      background: rgba(0, 210, 255, 0.2);
+      border-color: rgba(0, 210, 255, 0.4);
       transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(0, 210, 255, 0.25);
+      box-shadow: 0 12px 40px rgba(0, 210, 255, 0.2);
     }
-    .btn-secondary {
-      background: rgba(255,255,255,0.06);
-      color: #ccc;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    .btn-secondary:hover {
-      background: rgba(255,255,255,0.1);
-      transform: translateY(-3px);
-    }
-    .hero-stats {
+
+    .hero-info {
+      margin-top: 2rem;
       display: flex;
-      gap: 3rem;
+      gap: 1rem;
       justify-content: center;
-      margin-top: 3rem;
-      padding-top: 2.5rem;
-      border-top: 1px solid rgba(255,255,255,0.06);
+      flex-wrap: wrap;
     }
-    .hero-stats .stat { text-align: center; }
-    .hero-stats .stat-num {
-      font-size: 1.8rem;
-      font-weight: 800;
+    .hero-info span {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.3);
+      padding: 0.3rem 0.8rem;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 20px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+    .feature-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 1.2rem;
+      transition: all 0.3s;
+    }
+    .feature-card:hover {
+      border-color: rgba(0, 210, 255, 0.2);
+      transform: translateY(-4px);
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+    .feature-icon { font-size: 1.6rem; margin-bottom: 0.8rem; }
+    .feature-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
       color: #fff;
     }
-    .hero-stats .stat-label {
-      font-size: 0.8rem;
-      color: #666;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+    .feature-card p {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.4);
+      line-height: 1.65;
     }
 
     .section-title {
@@ -163,58 +209,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .section-title p {
-      color: #666;
-      font-size: 1rem;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1rem;
-    }
-    .feature-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 14px;
-      padding: 1.2rem;
-      transition: all 0.3s;
-      position: relative;
-      overflow: hidden;
-    }
-    .feature-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #00d2ff, #7b68ee);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s;
-    }
-    .feature-card:hover::before { transform: scaleX(1); }
-    .feature-card:hover {
-      border-color: rgba(0, 210, 255, 0.2);
-      transform: translateY(-4px);
-      background: rgba(255,255,255,0.05);
-    }
-    .feature-icon {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-    }
-    .feature-card h3 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: #fff;
-    }
-    .feature-card p {
-      font-size: 0.9rem;
-      color: #777;
-      line-height: 1.65;
-    }
+    .section-title p { color: rgba(255, 255, 255, 0.4); font-size: 1rem; }
 
     .steps {
       display: grid;
@@ -225,83 +220,44 @@
     .step {
       text-align: center;
       padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 16px;
     }
     .step-num {
       counter-increment: step;
-      width: 50px;
-      height: 50px;
+      width: 44px;
+      height: 44px;
       margin: 0 auto 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      background: rgba(0, 210, 255, 0.1);
-      border: 2px solid rgba(0, 210, 255, 0.2);
-      font-size: 1.2rem;
+      background: rgba(0, 210, 255, 0.08);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border: 1px solid rgba(0, 210, 255, 0.15);
+      font-size: 1.1rem;
       font-weight: 800;
       color: #00d2ff;
     }
-    .step h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: #fff;
-    }
-    .step p {
-      font-size: 0.85rem;
-      color: #777;
-    }
-
-    .download-section {
-      text-align: center;
-      background:
-        radial-gradient(ellipse at center, rgba(0, 210, 255, 0.06) 0%, transparent 70%),
-        #0a0a0f;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .download-card {
-      display: inline-block;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 16px;
-      padding: 2rem;
-      text-align: center;
-    }
-    .download-card .os-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-    .download-card h3 { font-size: 1.3rem; color: #fff; margin-bottom: 0.3rem; }
-    .download-card .file-size {
-      color: #666;
-      font-size: 0.85rem;
-      margin-bottom: 1.5rem;
-    }
-    .download-card .req {
-      font-size: 0.8rem;
-      color: #555;
-      margin-top: 1rem;
-    }
-    .download-card .req span {
-      display: inline-block;
-      background: rgba(255,255,255,0.05);
-      padding: 0.2rem 0.6rem;
-      border-radius: 4px;
-      margin: 0.2rem;
-    }
+    .step h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; color: #fff; }
+    .step p { font-size: 0.85rem; color: rgba(255, 255, 255, 0.4); }
 
     footer {
       text-align: center;
       padding: 1.5rem 2rem;
-      color: #444;
+      color: rgba(255, 255, 255, 0.2);
       font-size: 0.85rem;
     }
 
     @media (max-width: 768px) {
       nav .links a:not(.nav-btn) { display: none; }
       .hero h1 { font-size: 2.2rem; }
-      .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
-      .hero-stats .stat-num { font-size: 1.4rem; }
+      .glass-card { padding: 2rem 1.5rem; }
       .features-grid { grid-template-columns: 1fr; }
-      .download-card { padding: 2rem; }
     }
   </style>
 </head>
@@ -312,38 +268,23 @@
   <div class="links">
     <a href="#features">Fonctionnalités</a>
     <a href="#how-it-works">Comment ça marche</a>
-    <a href="#download" class="nav-btn">Télécharger</a>
+    <a href="https://github.com/Remym6565/PDF-Editor" target="_blank" class="nav-btn">Code source</a>
   </div>
 </nav>
 
 <section class="hero">
-  <div class="hero-content">
+  <div class="hero-content glass-card">
     <div class="hero-badge">Gratuit &middot; Open Source &middot; Windows</div>
     <h1>Éditez vos PDF simplement</h1>
     <p>Un éditeur PDF gratuit, rapide et élégant. Ajoutez du texte, des images, des signatures et organisez vos pages en quelques clics.</p>
-    <div class="hero-buttons">
-      <a href="#download" class="btn-primary download-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Télécharger
-      </a>
-      <a href="https://github.com/Remym6565/PDF-Editor" target="_blank" class="btn-secondary">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-        Code source
-      </a>
-    </div>
-    <div class="hero-stats">
-      <div class="stat">
-        <div class="stat-num">100%</div>
-        <div class="stat-label">Gratuit</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">Open Source</div>
-        <div class="stat-label">Fait avec Gemini &amp; Claude</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">Windows</div>
-        <div class="stat-label">Exécutable portable</div>
-      </div>
+    <a href="https://github.com/Remym6565/PDF-Editor/releases/download/v1.0.0/PDF_Editor_Pro.exe" class="btn-download download-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Télécharger pour Windows
+    </a>
+    <div class="hero-info">
+      <span>Version 1.0.0</span>
+      <span>~61 Mo</span>
+      <span>Exécutable portable</span>
     </div>
   </div>
 </section>
@@ -373,7 +314,7 @@
       <div class="feature-card">
         <div class="feature-icon">&#9889;</div>
         <h3>Rapide &amp; Léger</h3>
-        <p>Application native Windows, démarrage instantané et interface fluide. Exécutable autonome de seulement 4 Mo.</p>
+        <p>Application native Windows, démarrage instantané et interface fluide. Exécutable autonome.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">&#127912;</div>
@@ -389,7 +330,7 @@
   </div>
 </section>
 
-<section id="how-it-works" style="background: rgba(255,255,255,0.02);">
+<section id="how-it-works">
   <div class="container">
     <div class="section-title">
       <h2>Comment ça marche</h2>
@@ -410,29 +351,6 @@
         <div class="step-num">3</div>
         <h3>Enregistrez</h3>
         <p>Sauvegardez votre document modifié en un clic. Votre PDF original reste intact.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="download" class="download-section">
-  <div class="container">
-    <div class="section-title">
-      <h2>Télécharger</h2>
-      <p>Prêt à l'emploi, aucune installation requise</p>
-    </div>
-    <div class="download-card">
-      <div class="os-icon">&#128421;</div>
-      <h3>PDF Editor Pro pour Windows</h3>
-      <p class="file-size">Version 1.0.0 &middot; ~4.5 Mo &middot; Exécutable portable</p>
-      <a href="https://github.com/Remym6565/PDF-Editor/releases/download/v1.0.0/PDF_Editor_Pro.exe" class="btn-primary download-btn" style="display:inline-flex;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Télécharger l'exécutable
-      </a>
-      <div class="req">
-        <span>Windows 10/11</span>
-        <span>64-bit</span>
-        <span>Aucune installation</span>
       </div>
     </div>
   </div>
