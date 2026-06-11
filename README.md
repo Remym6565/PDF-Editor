@@ -18,8 +18,6 @@
 
 ## ✨ Fonctionnalités
 
-| | |
-|---|---|
 | ✏️ **Texte & Typographie** | Ajout de texte avec police, taille, gras, italique et couleur |
 | 🖼️ **Images & Signatures** | Insertion d'images, dessin ou import de signature |
 | 📑 **Gestionnaire de pages** | Réorganisation, fusion et division visuelles |
