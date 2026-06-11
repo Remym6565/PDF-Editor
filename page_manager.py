@@ -12,7 +12,52 @@ class PageManagerDialog(QDialog):
     def __init__(self, processor, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Gestionnaire de Pages")
-        self.resize(600, 500)
+        self.resize(650, 520)
+        self.setStyleSheet("""
+            QDialog {
+                background-color: #1a1a1a;
+                color: #ddd;
+            }
+            QLabel {
+                color: #ddd;
+                font-size: 13px;
+            }
+            QPushButton {
+                background-color: #0d7377;
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 6px;
+                font-weight: 600;
+                min-width: 100px;
+            }
+            QPushButton:hover { background-color: #0e8a8f; }
+            QPushButton:pressed { background-color: #0b6063; }
+            QPushButton#dangerBtn {
+                background-color: #c0392b;
+            }
+            QPushButton#dangerBtn:hover { background-color: #e74c3c; }
+            QListWidget {
+                background-color: #141414;
+                border: 1px solid #333;
+                border-radius: 8px;
+                padding: 8px;
+                outline: none;
+            }
+            QListWidget::item {
+                padding: 8px;
+                border: 2px solid transparent;
+                border-radius: 6px;
+                margin: 4px;
+            }
+            QListWidget::item:selected {
+                background-color: #0d7377;
+                border-color: #0e8a8f;
+            }
+            QListWidget::item:hover:!selected {
+                background-color: #2a2a2a;
+            }
+        """)
         
         self.processor = processor
         
@@ -36,7 +81,7 @@ class PageManagerDialog(QDialog):
         self.list_widget.setViewMode(QListWidget.ViewMode.IconMode)
         self.list_widget.setMovement(QListWidget.Movement.Static)
         self.list_widget.setResizeMode(QListWidget.ResizeMode.Adjust)
-        self.list_widget.setStyleSheet("QListWidget::item { padding: 5px; border: 1px solid transparent; } QListWidget::item:selected { background-color: #cce8ff; border: 1px solid #0078D7; border-radius: 5px; }")
+        # Style déjà géré par le stylesheet général du dialogue
         
         layout.addWidget(self.list_widget)
 
@@ -58,6 +103,7 @@ class PageManagerDialog(QDialog):
         self.btn_add = QPushButton("Ajouter un PDF")
         self.btn_extract = QPushButton("Extraire la sélection (Diviser)")
         self.btn_delete = QPushButton("Supprimer la sélection")
+        self.btn_delete.setObjectName("dangerBtn")
         
         btn_layout.addWidget(self.btn_add)
         btn_layout.addWidget(self.btn_extract)

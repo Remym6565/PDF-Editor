@@ -129,8 +129,8 @@ class ImageBlockOverlay(QGraphicsRectItem):
         self.image_xref = image_xref
         self.original_rect = rect
         
-        self.setPen(QPen(QColor(255, 140, 0, 200), 2, Qt.PenStyle.DashLine))
-        self.setBrush(QBrush(QColor(255, 140, 0, 40)))
+        self.setPen(QPen(QColor(255, 140, 0, 200), 2, Qt.PenStyle.SolidLine))
+        self.setBrush(QBrush(QColor(255, 140, 0, 30)))
         self.setCursor(Qt.CursorShape.PointingHandCursor)
 
     def mousePressEvent(self, event):
@@ -185,7 +185,7 @@ class PDFCanvas(QGraphicsView):
         self.image_block_overlays = []
         
         # Style pour s'intégrer au fond
-        self.setStyleSheet("background-color: transparent; border: 1px solid #333;")
+        self.setStyleSheet("background-color: transparent; border: none;")
 
     def wheelEvent(self, event):
         """Redirige le zoom Ctrl+Molette vers main_window pour zoomer toutes les pages."""
@@ -211,12 +211,23 @@ class PDFCanvas(QGraphicsView):
         super().mousePressEvent(event)
 
     def set_pdf_page(self, qimage, text_blocks=None, image_blocks=None):
-        """Affiche l'image de la page en arrière-plan."""
+        """Affiche l'image de la page en arrière-plan avec effet d'ombre."""
         self.scene.clear()
         self.text_block_overlays.clear()
         self.image_block_overlays.clear()
         
         pixmap = QPixmap.fromImage(qimage)
+        
+        # Ombre portée
+        shadow_margin = 15
+        total_w = pixmap.width() + shadow_margin * 2
+        total_h = pixmap.height() + shadow_margin * 2
+        shadow_rect = QGraphicsRectItem(0, 0, total_w, total_h)
+        shadow_rect.setPos(-shadow_margin, -shadow_margin)
+        shadow_rect.setBrush(QBrush(QColor(0, 0, 0, 40)))
+        shadow_rect.setPen(QPen(Qt.PenStyle.NoPen))
+        shadow_rect.setZValue(-2)
+        self.scene.addItem(shadow_rect)
         self.background_item = self.scene.addPixmap(pixmap)
         self.background_item.setZValue(-1)
         self.setSceneRect(QRectF(pixmap.rect()))

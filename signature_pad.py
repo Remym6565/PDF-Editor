@@ -13,7 +13,69 @@ class SignaturePad(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Ajouter une signature")
-        self.setFixedSize(550, 450)
+        self.setFixedSize(550, 470)
+        self.setStyleSheet("""
+            QDialog {
+                background-color: #1a1a1a;
+                color: #ddd;
+            }
+            QLabel {
+                color: #ddd;
+                font-size: 13px;
+            }
+            QTabWidget::pane {
+                background-color: #1a1a1a;
+                border: 1px solid #333;
+                border-radius: 8px;
+                padding: 12px;
+            }
+            QTabBar::tab {
+                background-color: #222;
+                color: #888;
+                padding: 8px 16px;
+                border: 1px solid #333;
+                border-bottom: none;
+                border-top-left-radius: 6px;
+                border-top-right-radius: 6px;
+                margin-right: 2px;
+                font-size: 12px;
+            }
+            QTabBar::tab:selected {
+                background-color: #1a1a1a;
+                color: #0d7377;
+                border-bottom: 2px solid #0d7377;
+            }
+            QTabBar::tab:hover:!selected {
+                background-color: #2a2a2a;
+                color: #ddd;
+            }
+            QPushButton {
+                background-color: #0d7377;
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 6px;
+                font-weight: 600;
+            }
+            QPushButton:hover { background-color: #0e8a8f; }
+            QPushButton:pressed { background-color: #0b6063; }
+            QCheckBox {
+                color: #aaa;
+                spacing: 8px;
+                font-size: 12px;
+            }
+            QCheckBox::indicator {
+                width: 18px;
+                height: 18px;
+                border: 2px solid #555;
+                border-radius: 4px;
+                background-color: #222;
+            }
+            QCheckBox::indicator:checked {
+                background-color: #0d7377;
+                border-color: #0d7377;
+            }
+        """)
         self.signature_path = None
 
         self.save_dir = os.path.join(os.path.expanduser("~"), ".pdf_editor_signatures")

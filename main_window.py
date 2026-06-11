@@ -1,8 +1,9 @@
 from PyQt6.QtWidgets import (QMainWindow, QToolBar, QFileDialog, QMessageBox, 
                              QScrollArea, QVBoxLayout, QWidget, QDialog,
-                             QFontComboBox, QSpinBox, QColorDialog, QApplication)
-from PyQt6.QtGui import QAction, QKeySequence, QFont, QColor
-from PyQt6.QtCore import Qt, QTimer
+                             QFontComboBox, QSpinBox, QColorDialog, QApplication,
+                             QStatusBar, QLabel)
+from PyQt6.QtGui import QAction, QKeySequence, QFont, QColor, QIcon
+from PyQt6.QtCore import Qt, QTimer, QSize
 
 from pdf_processor import PDFProcessor
 from pdf_canvas import PDFCanvas
@@ -12,22 +13,96 @@ from page_manager import PageManagerDialog
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("PDF Editor")
+        self.setWindowTitle("PDF Editor Pro")
         self.resize(1200, 800)
         
-        # Thème sombre moderne
+        # Style global
         self.setStyleSheet("""
-            QMainWindow { background-color: #1E1E1E; }
-            QToolBar { background-color: #2D2D2D; border: none; padding: 5px; }
-            QToolButton { color: white; padding: 5px; border-radius: 3px; }
-            QToolButton:hover { background-color: #3D3D3D; }
-            QToolButton:checked { background-color: #0078D7; }
-            QScrollArea { background-color: #121212; border: none; }
-            QWidget#Container { background-color: #121212; }
-            QMessageBox, QDialog { background-color: #1E1E1E; color: white; }
-            QLabel { color: white; }
-            QPushButton { background-color: #0078D7; color: white; border: none; padding: 8px; border-radius: 4px; }
-            QPushButton:hover { background-color: #005A9E; }
+            QMainWindow { background-color: #1a1a1a; }
+            
+            QToolBar {
+                background-color: #222222;
+                border: none;
+                border-bottom: 1px solid #333;
+                padding: 4px 8px;
+                spacing: 4px;
+            }
+            QToolBar#textToolbar {
+                background-color: #1e1e1e;
+                border-bottom: 1px solid #333;
+                padding: 4px 8px;
+            }
+            QToolButton {
+                color: #ccc;
+                padding: 6px 10px;
+                border-radius: 6px;
+                border: none;
+                font-size: 12px;
+                font-weight: 500;
+            }
+            QToolButton:hover { background-color: #333; color: #fff; }
+            QToolButton:checked { background-color: #0d7377; color: #fff; }
+            QToolButton:pressed { background-color: #2a2a2a; }
+            
+            QScrollArea { background-color: #141414; border: none; }
+            QWidget#Container { background-color: #141414; }
+            
+            QMessageBox, QDialog {
+                background-color: #1e1e1e; color: #ddd;
+            }
+            QLabel { color: #ddd; }
+            
+            QComboBox, QSpinBox, QFontComboBox {
+                background-color: #2a2a2a;
+                color: #ddd;
+                border: 1px solid #444;
+                border-radius: 6px;
+                padding: 4px 8px;
+                min-height: 24px;
+            }
+            QComboBox:hover, QSpinBox:hover, QFontComboBox:hover {
+                border-color: #0d7377;
+            }
+            QComboBox::drop-down {
+                border: none;
+                padding-right: 8px;
+            }
+            QComboBox QAbstractItemView {
+                background-color: #2a2a2a;
+                color: #ddd;
+                selection-background-color: #0d7377;
+                border: 1px solid #444;
+            }
+            
+            QPushButton {
+                background-color: #0d7377;
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 6px;
+                font-weight: 600;
+            }
+            QPushButton:hover { background-color: #0e8a8f; }
+            QPushButton:pressed { background-color: #0b6063; }
+            QPushButton:disabled { background-color: #333; color: #666; }
+            
+            QSpinBox::up-button, QSpinBox::down-button {
+                background-color: #333;
+                border: none;
+                border-radius: 2px;
+                width: 16px;
+            }
+            QSpinBox::up-button:hover, QSpinBox::down-button:hover {
+                background-color: #444;
+            }
+            
+            QStatusBar {
+                background-color: #1a1a1a;
+                border-top: 1px solid #333;
+                color: #888;
+                font-size: 12px;
+                padding: 2px 8px;
+            }
         """)
 
         self.processor = PDFProcessor()
@@ -54,6 +129,9 @@ class MainWindow(QMainWindow):
         self.create_toolbar()
         self.current_text_item = None
         self.undo_stack = []
+        
+        self.status_label = QLabel("Prêt")
+        self.statusBar().addWidget(self.status_label)
         
     def create_actions(self):
         self.act_new = QAction("Nouveau", self)
@@ -91,6 +169,7 @@ class MainWindow(QMainWindow):
     def create_toolbar(self):
         toolbar = QToolBar("Barre d'outils principale")
         toolbar.setMovable(False)
+        toolbar.setIconSize(QSize(18, 18))
         self.addToolBar(toolbar)
         
         toolbar.addAction(self.act_new)
@@ -109,27 +188,35 @@ class MainWindow(QMainWindow):
         # Barre d'outils de formatage de texte (sur une nouvelle ligne)
         self.addToolBarBreak(Qt.ToolBarArea.TopToolBarArea)
         self.text_toolbar = QToolBar("Formatage Texte")
+        self.text_toolbar.setObjectName("textToolbar")
+        self.text_toolbar.setIconSize(QSize(18, 18))
         self.addToolBar(Qt.ToolBarArea.TopToolBarArea, self.text_toolbar)
         
         self.font_combo = QFontComboBox()
         self.font_combo.setEditable(False)
         self.font_combo.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        self.font_combo.setMinimumWidth(150)
         
         self.size_spin = QSpinBox()
         self.size_spin.setRange(8, 100)
         self.size_spin.setValue(12)
         self.size_spin.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+        self.size_spin.setMinimumWidth(60)
         
-        self.btn_bold = QAction("Gras (B)", self)
+        self.btn_bold = QAction("Gras", self)
         self.btn_bold.setCheckable(True)
+        self.btn_bold.setToolTip("Gras (Ctrl+B)")
         
-        self.btn_italic = QAction("Italique (I)", self)
+        self.btn_italic = QAction("Italique", self)
         self.btn_italic.setCheckable(True)
+        self.btn_italic.setToolTip("Italique (Ctrl+I)")
         
         self.btn_color = QAction("Couleur", self)
+        self.btn_color.setToolTip("Choisir une couleur")
         
         self.text_toolbar.addWidget(self.font_combo)
         self.text_toolbar.addWidget(self.size_spin)
+        self.text_toolbar.addSeparator()
         self.text_toolbar.addAction(self.btn_bold)
         self.text_toolbar.addAction(self.btn_italic)
         self.text_toolbar.addAction(self.btn_color)
