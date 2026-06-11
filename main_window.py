@@ -87,13 +87,18 @@ class MainWindow(QMainWindow):
             QPushButton:disabled { background-color: #333; color: #666; }
             
             QSpinBox::up-button, QSpinBox::down-button {
-                background-color: #333;
-                border: none;
-                border-radius: 2px;
-                width: 16px;
+                background-color: #6a6a6a;
+                border: 1px solid #888;
+                border-radius: 3px;
+                width: 22px;
+                margin: 1px;
             }
             QSpinBox::up-button:hover, QSpinBox::down-button:hover {
-                background-color: #444;
+                background-color: #0d7377;
+                border-color: #0e8a8f;
+            }
+            QSpinBox::up-button:pressed, QSpinBox::down-button:pressed {
+                background-color: #0b6063;
             }
             
             QStatusBar {
