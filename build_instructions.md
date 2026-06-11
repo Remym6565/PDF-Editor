@@ -1,6 +1,6 @@
 # Instructions de Compilation avec PyInstaller
 
-Ce document décrit comment compiler l'application `Antigravity PDF Editor Pro` en un unique fichier exécutable `.exe` pour Windows.
+Ce document décrit comment compiler l'application `PDF Editor Pro` en un unique fichier exécutable `.exe` pour Windows.
 
 ## Prérequis
 

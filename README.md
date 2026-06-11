@@ -1,4 +1,4 @@
-# Antigravity PDF Editor Pro
+# PDF Editor Pro
 
 Un éditeur PDF desktop moderne avec interface graphique, développé en Python avec PyQt6.
 

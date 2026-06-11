@@ -14,7 +14,7 @@ def resource_path(relative_path):
 
 def main():
     """
-    Point d'entrée principal de l'application Antigravity PDF Editor Pro.
+    Point d'entrée principal de l'application PDF Editor Pro.
     Initialise l'application PyQt6 et affiche la fenêtre principale.
     """
     app = QApplication(sys.argv)
