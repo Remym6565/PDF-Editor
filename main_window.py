@@ -1,8 +1,8 @@
 from PyQt6.QtWidgets import (QMainWindow, QToolBar, QFileDialog, QMessageBox, 
                              QScrollArea, QVBoxLayout, QWidget, QDialog,
-                             QFontComboBox, QSpinBox, QColorDialog, QApplication,
+                             QFontComboBox, QSpinBox, QApplication,
                              QStatusBar, QLabel)
-from PyQt6.QtGui import QAction, QKeySequence, QFont, QColor, QIcon
+from PyQt6.QtGui import QAction, QKeySequence, QFont, QIcon
 from PyQt6.QtCore import Qt, QTimer, QSize
 
 from pdf_processor import PDFProcessor
@@ -215,16 +215,12 @@ class MainWindow(QMainWindow):
         self.btn_italic = QAction("Italique", self)
         self.btn_italic.setCheckable(True)
         self.btn_italic.setToolTip("Italique (Ctrl+I)")
-        
-        self.btn_color = QAction("Couleur", self)
-        self.btn_color.setToolTip("Choisir une couleur")
-        
+
         self.text_toolbar.addWidget(self.font_combo)
         self.text_toolbar.addWidget(self.size_spin)
         self.text_toolbar.addSeparator()
         self.text_toolbar.addAction(self.btn_bold)
         self.text_toolbar.addAction(self.btn_italic)
-        self.text_toolbar.addAction(self.btn_color)
         
         self.text_toolbar.setVisible(False)
         
@@ -232,7 +228,6 @@ class MainWindow(QMainWindow):
         self.size_spin.valueChanged.connect(self.set_text_font_size)
         self.btn_bold.toggled.connect(self.set_text_bold)
         self.btn_italic.toggled.connect(self.set_text_italic)
-        self.btn_color.triggered.connect(self.choose_text_color)
 
     def clear_pages(self):
         # Nettoyer l'ancien layout
@@ -367,12 +362,6 @@ class MainWindow(QMainWindow):
             cursor.mergeCharFormat(fmt)
             cursor.clearSelection()
             self.current_text_item.setTextCursor(cursor)
-
-    def choose_text_color(self):
-        if self.current_text_item:
-            color = QColorDialog.getColor(self.current_text_item.defaultTextColor(), self)
-            if color.isValid():
-                self.current_text_item.setDefaultTextColor(color)
 
     def handle_zoom(self, factor):
         """Applique le zoom à tous les canevas."""

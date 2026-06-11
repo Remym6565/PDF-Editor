@@ -20,7 +20,7 @@
 
 | Fonctionnalité | Description |
 | --- | --- |
-| ✏️ **Texte & Typographie** | Ajout de texte avec police, taille, gras, italique et couleur |
+| ✏️ **Texte & Typographie** | Ajout de texte avec police, taille, gras et italique |
 | 🖼️ **Images & Signatures** | Insertion d'images, dessin ou import de signature |
 | 📑 **Gestionnaire de pages** | Réorganisation, fusion et division visuelles |
 | ⚡ **Rapide & Léger** | Application native Windows, exécutable autonome |
