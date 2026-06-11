@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+build/
+dist/
+*.spec
+*.log
+error.log
+.PDF_Editor_signatures/
