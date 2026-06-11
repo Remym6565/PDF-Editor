@@ -41,7 +41,7 @@ class MainWindow(QMainWindow):
                 font-weight: 500;
             }
             QToolButton:hover { background-color: #333; color: #fff; }
-            QToolButton:checked { background-color: #0d7377; color: #fff; }
+            QToolButton:checked { background-color: #c7524a; color: #fff; }
             QToolButton:pressed { background-color: #2a2a2a; }
             
             QScrollArea { background-color: #141414; border: none; }
@@ -61,7 +61,7 @@ class MainWindow(QMainWindow):
                 min-height: 24px;
             }
             QComboBox:hover, QSpinBox:hover, QFontComboBox:hover {
-                border-color: #0d7377;
+                border-color: #c7524a;
             }
             QComboBox::drop-down {
                 border: none;
@@ -70,20 +70,20 @@ class MainWindow(QMainWindow):
             QComboBox QAbstractItemView {
                 background-color: #2a2a2a;
                 color: #ddd;
-                selection-background-color: #0d7377;
+                selection-background-color: #c7524a;
                 border: 1px solid #444;
             }
             
             QPushButton {
-                background-color: #0d7377;
+                background-color: #c7524a;
                 color: white;
                 border: none;
                 padding: 8px 16px;
                 border-radius: 6px;
                 font-weight: 600;
             }
-            QPushButton:hover { background-color: #0e8a8f; }
-            QPushButton:pressed { background-color: #0b6063; }
+            QPushButton:hover { background-color: #d97a73; }
+            QPushButton:pressed { background-color: #b5433b; }
             QPushButton:disabled { background-color: #333; color: #666; }
             
             QSpinBox::up-button, QSpinBox::down-button {
@@ -94,11 +94,11 @@ class MainWindow(QMainWindow):
                 margin: 1px;
             }
             QSpinBox::up-button:hover, QSpinBox::down-button:hover {
-                background-color: #0d7377;
-                border-color: #0e8a8f;
+                background-color: #c7524a;
+                border-color: #d97a73;
             }
             QSpinBox::up-button:pressed, QSpinBox::down-button:pressed {
-                background-color: #0b6063;
+                background-color: #b5433b;
             }
             
             QStatusBar {

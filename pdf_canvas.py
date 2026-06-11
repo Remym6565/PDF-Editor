@@ -146,8 +146,8 @@ class TextBlockOverlay(QGraphicsRectItem):
         self.original_rect = rect
         self.raw_block = raw_block
         
-        self.setPen(QPen(QColor(0, 120, 215, 150), 2, Qt.PenStyle.DashLine))
-        self.setBrush(QBrush(QColor(0, 120, 215, 50)))
+        self.setPen(QPen(QColor(199, 82, 74, 180), 2, Qt.PenStyle.DashLine))
+        self.setBrush(QBrush(QColor(199, 82, 74, 40)))
         self.setCursor(Qt.CursorShape.PointingHandCursor)
 
     def mousePressEvent(self, event):

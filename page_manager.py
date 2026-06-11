@@ -23,7 +23,7 @@ class PageManagerDialog(QDialog):
                 font-size: 13px;
             }
             QPushButton {
-                background-color: #0d7377;
+                background-color: #c7524a;
                 color: white;
                 border: none;
                 padding: 8px 16px;
@@ -31,8 +31,8 @@ class PageManagerDialog(QDialog):
                 font-weight: 600;
                 min-width: 100px;
             }
-            QPushButton:hover { background-color: #0e8a8f; }
-            QPushButton:pressed { background-color: #0b6063; }
+            QPushButton:hover { background-color: #d97a73; }
+            QPushButton:pressed { background-color: #b5433b; }
             QPushButton#dangerBtn {
                 background-color: #c0392b;
             }
@@ -51,8 +51,8 @@ class PageManagerDialog(QDialog):
                 margin: 4px;
             }
             QListWidget::item:selected {
-                background-color: #0d7377;
-                border-color: #0e8a8f;
+                background-color: #c7524a;
+                border-color: #d97a73;
             }
             QListWidget::item:hover:!selected {
                 background-color: #2a2a2a;
@@ -114,7 +114,7 @@ class PageManagerDialog(QDialog):
         bottom_layout = QHBoxLayout()
         self.btn_cancel = QPushButton("Annuler")
         self.btn_apply = QPushButton("Appliquer")
-        self.btn_apply.setStyleSheet("background-color: #0078D7; color: white; font-weight: bold;")
+        self.btn_apply.setStyleSheet("background-color: #c7524a; color: white; font-weight: bold;")
         
         bottom_layout.addWidget(self.btn_cancel)
         bottom_layout.addStretch()

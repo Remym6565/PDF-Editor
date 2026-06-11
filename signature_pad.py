@@ -42,23 +42,23 @@ class SignaturePad(QDialog):
             }
             QTabBar::tab:selected {
                 background-color: #1a1a1a;
-                color: #0d7377;
-                border-bottom: 2px solid #0d7377;
+                color: #c7524a;
+                border-bottom: 2px solid #c7524a;
             }
             QTabBar::tab:hover:!selected {
                 background-color: #2a2a2a;
                 color: #ddd;
             }
             QPushButton {
-                background-color: #0d7377;
+                background-color: #c7524a;
                 color: white;
                 border: none;
                 padding: 8px 16px;
                 border-radius: 6px;
                 font-weight: 600;
             }
-            QPushButton:hover { background-color: #0e8a8f; }
-            QPushButton:pressed { background-color: #0b6063; }
+            QPushButton:hover { background-color: #d97a73; }
+            QPushButton:pressed { background-color: #b5433b; }
             QCheckBox {
                 color: #aaa;
                 spacing: 8px;
@@ -72,8 +72,8 @@ class SignaturePad(QDialog):
                 background-color: #222;
             }
             QCheckBox::indicator:checked {
-                background-color: #0d7377;
-                border-color: #0d7377;
+                background-color: #c7524a;
+                border-color: #c7524a;
             }
         """)
         self.signature_path = None
@@ -104,11 +104,11 @@ class SignaturePad(QDialog):
             pix = pix.scaled(400, 200, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
             preview_img.setPixmap(pix)
             preview_img.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            preview_img.setStyleSheet("background-color: #f9f9f9; border: 2px dashed #0078D7; border-radius: 10px; padding: 10px;")
+            preview_img.setStyleSheet("background-color: #f9f9f9; border: 2px dashed #c7524a; border-radius: 10px; padding: 10px;")
             ref_layout.addWidget(preview_img)
             
             self.btn_use_ref = QPushButton("Utiliser cette signature")
-            self.btn_use_ref.setStyleSheet("background-color: #0078D7; color: white; font-size: 14px; font-weight: bold; padding: 10px; border-radius: 5px;")
+            self.btn_use_ref.setStyleSheet("background-color: #c7524a; color: white; font-size: 14px; font-weight: bold; padding: 10px; border-radius: 5px;")
             self.btn_use_ref.setCursor(Qt.CursorShape.PointingHandCursor)
             self.btn_use_ref.clicked.connect(self.use_reference)
             ref_layout.addSpacing(20)
