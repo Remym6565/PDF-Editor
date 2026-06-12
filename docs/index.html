@@ -453,12 +453,10 @@ document.querySelectorAll('.download-btn').forEach(btn => {
       if (!res.ok) throw new Error('No release');
       const release = await res.json();
       if (release.assets && release.assets.length > 0) {
-        clearTimeout(timer);
         window.location.href = release.assets[0].browser_download_url;
         return;
       }
     } catch {}
-    clearTimeout(timer);
     window.location.href = fallback;
   });
 });
