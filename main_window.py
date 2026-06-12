@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import (QMainWindow, QToolBar, QFileDialog, QMessageBox, 
-                             QScrollArea, QVBoxLayout, QWidget, QDialog,
+                             QScrollArea, QVBoxLayout, QHBoxLayout, QWidget, QDialog,
                              QFontComboBox, QSpinBox, QApplication,
-                             QStatusBar, QLabel)
+                             QStatusBar, QLabel, QPushButton)
 from PyQt6.QtGui import QAction, QKeySequence, QFont, QIcon
 from PyQt6.QtCore import Qt, QTimer, QSize
 
@@ -108,6 +108,59 @@ class MainWindow(QMainWindow):
                 font-size: 12px;
                 padding: 2px 8px;
             }
+            QWidget#landingWidget {
+                background: transparent;
+            }
+            QLabel#landingTitle {
+                font-size: 28px;
+                font-weight: 800;
+                color: #fff;
+                background: transparent;
+            }
+            QPushButton#landingBtn {
+                background-color: #c7524a;
+                border: none;
+                color: #fff;
+                font-size: 16px;
+                font-weight: 700;
+                padding: 14px 40px;
+                border-radius: 10px;
+            }
+            QPushButton#landingBtn:hover {
+                background-color: #d97a73;
+            }
+            QPushButton#landingBtn:pressed {
+                background-color: #b5433b;
+            }
+            QWidget#zoomWidget {
+                background-color: rgba(30, 30, 30, 200);
+                border: 1px solid #444;
+                border-radius: 6px;
+                padding: 4px;
+            }
+            QPushButton#zoomBtn {
+                background-color: #2a2a2a;
+                color: #ccc;
+                border: 1px solid #444;
+                border-radius: 4px;
+                font-weight: 700;
+                font-size: 13px;
+                padding: 0;
+            }
+            QPushButton#zoomBtn:hover {
+                background-color: #3a3a3a;
+                border-color: #c7524a;
+                color: #fff;
+            }
+            QPushButton#zoomBtn:pressed {
+                background-color: #c7524a;
+                color: #fff;
+            }
+            QLabel#zoomLabel {
+                color: #888;
+                font-size: 11px;
+                padding: 0 4px;
+            }
         """)
 
         self.processor = PDFProcessor()
@@ -126,6 +179,55 @@ class MainWindow(QMainWindow):
         
         self.setCentralWidget(self.scroll_area)
         
+        # Landing page (aucun document ouvert)
+        self.landing_widget = QWidget()
+        self.landing_widget.setObjectName("landingWidget")
+        landing_layout = QVBoxLayout(self.landing_widget)
+        landing_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        landing_layout.setSpacing(24)
+        
+        landing_title = QLabel("PDF Editor Pro")
+        landing_title.setObjectName("landingTitle")
+        landing_btn = QPushButton("Ouvrir un fichier PDF")
+        landing_btn.setObjectName("landingBtn")
+        landing_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        landing_btn.clicked.connect(self.open_pdf)
+        
+        landing_layout.addWidget(landing_title, 0, Qt.AlignmentFlag.AlignCenter)
+        landing_layout.addWidget(landing_btn, 0, Qt.AlignmentFlag.AlignCenter)
+        
+        self.pages_layout.addWidget(self.landing_widget)
+        
+        # Contrôles de zoom flottants (bas à droite)
+        self.zoom_widget = QWidget(self.scroll_area)
+        self.zoom_widget.setObjectName("zoomWidget")
+        zoom_layout = QHBoxLayout(self.zoom_widget)
+        zoom_layout.setContentsMargins(0, 0, 0, 0)
+        zoom_layout.setSpacing(4)
+        
+        self.zoom_label = QLabel("100%")
+        self.zoom_label.setObjectName("zoomLabel")
+        self.btn_zoom_out = QPushButton("−")
+        self.btn_zoom_out.setObjectName("zoomBtn")
+        self.btn_zoom_out.setFixedSize(28, 28)
+        self.btn_zoom_reset = QPushButton("100%")
+        self.btn_zoom_reset.setObjectName("zoomBtn")
+        self.btn_zoom_reset.setFixedSize(48, 28)
+        self.btn_zoom_in = QPushButton("+")
+        self.btn_zoom_in.setObjectName("zoomBtn")
+        self.btn_zoom_in.setFixedSize(28, 28)
+        
+        self.btn_zoom_out.clicked.connect(lambda: self.handle_zoom(0.8))
+        self.btn_zoom_reset.clicked.connect(self.fit_to_height)
+        self.btn_zoom_in.clicked.connect(lambda: self.handle_zoom(1.25))
+        
+        zoom_layout.addWidget(self.zoom_label)
+        zoom_layout.addWidget(self.btn_zoom_out)
+        zoom_layout.addWidget(self.btn_zoom_reset)
+        zoom_layout.addWidget(self.btn_zoom_in)
+        
+        self.zoom_widget.setVisible(False)
+        
         self.canvases = []
         self.target_page_index = 0 # Page cible pour l'ajout de texte/image
         self.global_scale = 1.0
@@ -137,6 +239,9 @@ class MainWindow(QMainWindow):
         
         self.status_label = QLabel("Prêt")
         self.statusBar().addWidget(self.status_label)
+        
+        # Afficher la landing page au démarrage
+        self.show_landing()
         
     def create_actions(self):
         self.act_new = QAction("Nouveau", self)
@@ -229,23 +334,46 @@ class MainWindow(QMainWindow):
         self.btn_bold.toggled.connect(self.set_text_bold)
         self.btn_italic.toggled.connect(self.set_text_italic)
 
-    def clear_pages(self):
+    def show_landing(self):
+        self.clear_pages(keep_landing=True)
+        self.landing_widget.setVisible(True)
+        self.zoom_widget.setVisible(False)
+        self.pages_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+    def clear_pages(self, keep_landing=False):
         # Nettoyer l'ancien layout
         for i in reversed(range(self.pages_layout.count())): 
             widgetToRemove = self.pages_layout.itemAt(i).widget()
+            if keep_landing and widgetToRemove is self.landing_widget:
+                continue
             self.pages_layout.removeWidget(widgetToRemove)
             widgetToRemove.setParent(None)
         self.canvases.clear()
         self.global_scale = 1.0
 
+    def reposition_zoom_widget(self):
+        if self.zoom_widget.isVisible():
+            vp = self.scroll_area.viewport()
+            x = vp.width() - self.zoom_widget.sizeHint().width() - 12
+            y = vp.height() - self.zoom_widget.sizeHint().height() - 12
+            self.zoom_widget.move(x, y)
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        self.reposition_zoom_widget()
+
     def update_view(self):
         if not self.processor.doc: return
         self.clear_pages()
+        self.pages_layout.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignTop)
+        self.landing_widget.setVisible(False)
+        self.zoom_widget.setVisible(True)
+        self.reposition_zoom_widget()
         
         for i in range(self.processor.get_page_count()):
             canvas = PDFCanvas(page_index=i, parent=self)
             
-            image = self.processor.get_page_image(i, zoom=3.0)
+            image = self.processor.get_page_image(i, zoom=5.0)
             edit_mode = self.act_edit_mode.isChecked()
             canvas.edit_mode_active = edit_mode
             
@@ -363,7 +491,7 @@ class MainWindow(QMainWindow):
             cursor.clearSelection()
             self.current_text_item.setTextCursor(cursor)
 
-    def handle_zoom(self, factor):
+    def handle_zoom(self, factor, update_label=True):
         """Applique le zoom à tous les canevas."""
         self.global_scale *= factor
         for canvas in self.canvases:
@@ -375,6 +503,8 @@ class MainWindow(QMainWindow):
                 new_w = int(orig_size.width() * self.global_scale)
                 new_h = int(orig_size.height() * self.global_scale)
                 canvas.setFixedSize(new_w, new_h)
+        if update_label:
+            self.zoom_label.setText(f"{int(self.global_scale * 100)}%")
 
     def fit_to_height(self):
         """Zoom pour ajuster une page à 100% de la hauteur de l'écran avec une marge."""
@@ -392,6 +522,8 @@ class MainWindow(QMainWindow):
                     new_w = int(orig_size.width() * self.global_scale)
                     new_h = int(orig_size.height() * self.global_scale)
                     canvas.setFixedSize(new_w, new_h)
+                self.zoom_label.setText(f"{int(self.global_scale * 100)}%")
+                self.reposition_zoom_widget()
 
     def toggle_edit_mode(self, checked):
         """Active/désactive le mode édition sans recharger la vue (les modifs sont préservées)."""
@@ -414,6 +546,13 @@ class MainWindow(QMainWindow):
             self.text_toolbar.setVisible(False)
 
     def new_pdf(self):
+        if self.canvases:
+            reply = QMessageBox.question(self, "Nouveau document",
+                                         "Voulez-vous vraiment créer un nouveau document ?\nLes modifications non enregistrées seront perdues.",
+                                         QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                                         QMessageBox.StandardButton.No)
+            if reply != QMessageBox.StandardButton.Yes:
+                return
         self.processor.create_new_pdf()
         self.update_view()
 

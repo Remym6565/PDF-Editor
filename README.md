@@ -6,7 +6,7 @@
   <a href="https://remym6565.github.io/PDF-Editor/">
     <img src="https://img.shields.io/badge/Landing%20Page-Visiter-7b68ee?style=for-the-badge" alt="Landing Page">
   </a>
-  <a href="https://github.com/Remym6565/PDF-Editor/releases/download/v1.0.1/PDF_Editor_Pro.exe">
+  <a href="https://github.com/Remym6565/PDF-Editor/releases/download/v1.0.2/PDF_Editor_Pro.exe">
     <img src="https://img.shields.io/badge/T%C3%A9l%C3%A9charger-61%20Mo-00d2ff?style=for-the-badge" alt="Télécharger">
   </a>
   <a href="https://github.com/Remym6565/PDF-Editor">

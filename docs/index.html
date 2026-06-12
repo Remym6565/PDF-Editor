@@ -346,7 +346,7 @@
     <h1>Éditez vos PDF simplement</h1>
     <p>Un éditeur PDF gratuit, rapide et élégant.<br>Ajoutez du texte, des images, signez et organisez vos pages en quelques clics.</p>
     <div class="hero-buttons">
-      <a href="https://github.com/Remym6565/PDF-Editor/releases/download/v1.0.1/PDF_Editor_Pro.exe" class="btn-download download-btn">
+      <a href="https://github.com/Remym6565/PDF-Editor/releases/download/v1.0.2/PDF_Editor_Pro.exe" class="btn-download download-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Télécharger pour Windows
       </a>
@@ -356,7 +356,7 @@
       </a>
     </div>
     <div class="hero-info">
-      <span>Version 1.0.1</span>
+      <span>Version 1.0.2</span>
       <span>~61 Mo</span>
       <span>Exécutable portable</span>
     </div>
@@ -436,22 +436,37 @@
 
 <script>
 document.querySelectorAll('.download-btn').forEach(btn => {
+  const originalHTML = btn.innerHTML;
+  btn.setAttribute('data-original', originalHTML);
   btn.addEventListener('click', async function(e) {
     e.preventDefault();
     const fallback = this.getAttribute('href');
-    const original = this.innerHTML;
     this.innerHTML = 'Téléchargement...';
     this.style.pointerEvents = 'none';
+    // Restore after 5s if still on this page
+    const timer = setTimeout(() => {
+      this.innerHTML = this.getAttribute('data-original');
+      this.style.pointerEvents = 'auto';
+    }, 5000);
     try {
       const res = await fetch('https://api.github.com/repos/Remym6565/PDF-Editor/releases/latest');
       if (!res.ok) throw new Error('No release');
       const release = await res.json();
       if (release.assets && release.assets.length > 0) {
+        clearTimeout(timer);
         window.location.href = release.assets[0].browser_download_url;
         return;
       }
     } catch {}
+    clearTimeout(timer);
     window.location.href = fallback;
+  });
+});
+// Restore buttons when navigating back
+window.addEventListener('pageshow', function() {
+  document.querySelectorAll('.download-btn').forEach(btn => {
+    btn.innerHTML = btn.getAttribute('data-original');
+    btn.style.pointerEvents = 'auto';
   });
 });
 </script>
